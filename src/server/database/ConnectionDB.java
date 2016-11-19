@@ -13,6 +13,8 @@ import java.util.Properties;
 public class ConnectionDB {
     private final static String USER_DELETE = "DELETE FROM user WHERE id = ?";
     private final static String USER_ADD = "INSERT INTO user(login, password, access) VALUES(?,?,?)";
+    private final static String TASK_ADD = "INSERT INTO task(taskName, taskDescription, taskAssignedId, taskStart, taskEnd, taskStatus) VALUES(?,?,?,?,?,?)";
+    private final static String TASK_DELETE = "DELETE FROM task WHERE id = ?";
 
 
     private Connection cn = null;
@@ -70,15 +72,19 @@ public class ConnectionDB {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Тупой запрос в аддневюсер");
+            System.out.println("Error in SQL Query!");
         }
     }
 
     public boolean deleteFromDB(String tableName, String lineId) {
         PreparedStatement ps = null;
         try {
-            if (tableName.equals("user"))
+            if (tableName.equals("user")) {
                 ps = cn.prepareStatement(USER_DELETE);
+            }
+            if (tableName.equals("task")) {
+                ps = cn.prepareStatement(TASK_DELETE);
+            }
             ps.setString(1, lineId);
             System.out.println(ps.toString());
             ps.executeUpdate();
@@ -132,6 +138,25 @@ public class ConnectionDB {
             return false;
         }
         return true;
+    }
+
+    public void addNewTask(String taskName, String taskDescription, int taskAssignedId,
+                           String taskStart, String taskEnd, String taskStatus) {
+        PreparedStatement ps = null;
+        try {
+            ps = cn.prepareStatement(TASK_ADD);
+            ps.setString(1, taskName);
+            ps.setString(2, taskDescription);
+            ps.setInt(3, taskAssignedId);
+            ps.setString(4, taskStart);
+            ps.setString(5, taskEnd);
+            ps.setString(6, taskStatus);
+            System.out.println(ps.toString());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error in SQL Query!");
+        }
     }
 
     public void close() {

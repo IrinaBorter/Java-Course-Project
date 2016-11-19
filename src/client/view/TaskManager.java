@@ -67,6 +67,7 @@ public class TaskManager extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 parent.setVisible(true);
+                parent.setSize(500, 500);
                 dispose();
             }
         });

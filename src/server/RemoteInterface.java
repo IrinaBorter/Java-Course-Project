@@ -15,7 +15,6 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
     }
 
     public int authorisation(String login, String password) throws RemoteException {
-        System.out.println("sdsdsd");
         ConnectionDB databaseConnector = new ConnectionDB();
         return  databaseConnector.checkAuthorisation(login, password);
     }
@@ -43,5 +42,11 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
     public boolean updateTaskRow(String field, String value,int id) throws RemoteException {
         ConnectionDB connectionDB = new ConnectionDB();
         return connectionDB.updateTaskRow(field, value, id);
+    }
+
+    public void addNewTask(String taskName, String taskDescription, int taskAssigned,
+                          String taskStart, String taskEnd, String taskStatus) throws RemoteException {
+        ConnectionDB connectionDB = new ConnectionDB();
+        connectionDB.addNewTask(taskName, taskDescription, taskAssigned, taskStart, taskEnd, taskStatus);
     }
 }

@@ -1,20 +1,41 @@
 package client;
 
 import client.view.AuthorisationDialog;
-import client.view.TaskManager;
+
+import client.model.TaskStatusAndColorModel;
+import client.model.TaskXMLParser;
+import client.view.ServerConnectionError;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
 
-/**
- * Created by User on 24.10.2016.
- */
 public class ClientApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParserConfigurationException, SAXException {
+        TaskStatusAndColorModel taskStatusAndColorModel = TaskStatusAndColorModel.getInstance();
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();
+        DefaultHandler taskXmlParser = new TaskXMLParser();
+
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            parser.parse(new File("F:\\_Univer\\3 course\\java\\resources\\tasks.xml"), taskXmlParser);
+        } catch (IOException e) {
+            new ServerConnectionError("Отсутствует файл tasks.xml");
+            e.printStackTrace();
+            System.exit(0);
+        }
+        taskStatusAndColorModel.getStatusArray();
         AuthorisationDialog authDlg = new AuthorisationDialog();
     }
 }

@@ -1,0 +1,30 @@
+<tasks>
+    <task mark="Ready for development">
+        <status>Готова к разработке</status>
+        <color>yellow</color>
+    </task>
+    <task mark="In development">
+        <status>В процессу разработки</status>
+        <color>yellow</color>
+    </task>
+    <task mark="Ready for testing">
+        <status>Готова к тестированию</status>
+        <color>orange</color>
+    </task>
+    <task mark="In testing">
+        <status>В процессе тестирования</status>
+        <color>orange</color>
+    </task>
+    <task mark="Return to development">
+        <status>Отправлена на доработку</status>
+        <color>red</color>
+    </task>
+    <task mark="Ready for submit">
+        <status>Готова к подтверждению</status>
+        <color>green</color>
+    </task>
+    <task mark="Complete">
+        <status>Выполнена</status>
+        <color>green</color>
+    </task>
+</tasks>

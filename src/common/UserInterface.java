@@ -14,4 +14,6 @@ public interface UserInterface extends Remote{
     public boolean deleteFromDB(String tableName, String lineId) throws  RemoteException;
     public ArrayList<Task> getAllCurrentTasks() throws RemoteException;
     public boolean updateTaskRow(String field, String value, int id) throws RemoteException;
+    public void addNewTask(String taskName, String taskDescription, int taskAssignedId,
+                          String taskStart, String taskEnd, String taskStatus) throws RemoteException;
 }
