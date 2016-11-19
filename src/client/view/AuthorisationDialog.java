@@ -62,8 +62,9 @@ public class AuthorisationDialog extends JDialog {
 
         RmiConnector rmiConnection = new RmiConnector();
         if ((rmiConnection.getUserInterface().authorisation(loginField.getText(), passwordField.getText()))!=0) {
-            new TaskManager(thisWindow());
             setVisible(false);
+            dispose();
+            TaskManager taskManager = new TaskManager(thisWindow());
         }
         else messageLabel.setText("Ошибка");
     }

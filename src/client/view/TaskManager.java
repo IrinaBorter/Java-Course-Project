@@ -20,9 +20,9 @@ public class TaskManager extends JFrame {
 
     public TaskManager(AuthorisationDialog parent) {
         this.parent = parent;
-        this.setContentPane(this.contentPanel);
-        this.setSize(800, 500);
         this.setResizable(true);
+        this.setSize(500, 1000);
+        this.setContentPane(contentPanel);
         this.setLocationRelativeTo(null);
         this.startListeners();
         this.pack();
@@ -34,41 +34,40 @@ public class TaskManager extends JFrame {
     }
 
     public void startListeners() {
-        this.currentTasksButton.addActionListener(new ActionListener() {
+        currentTasksButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new CurrentTasks(thisWindow());
                 setVisible(false);
             }
         });
 
-        this.newTasksButton.addActionListener(new ActionListener() {
+        newTasksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        this.taskPerformanceStatisticsButton.addActionListener(new ActionListener() {
+        taskPerformanceStatisticsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        this.myProfileButton.addActionListener(new ActionListener() {
+        myProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
 
-        this.exitButton.addActionListener(new ActionListener() {
+        exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                parent.setVisible(true);
-                parent.setSize(500, 500);
                 dispose();
+                AuthorisationDialog authDlg = new AuthorisationDialog();
             }
         });
     }
