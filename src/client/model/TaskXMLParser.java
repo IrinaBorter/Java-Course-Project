@@ -5,7 +5,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TaskXMLParser extends DefaultHandler{
     String thisElement;
     String status = "";
-    String color = new String();
+    String color = "";
     boolean firstTask = true;
     TaskStatusAndColorModel taskStatusAndColorModel = TaskStatusAndColorModel.getInstance();
     @Override
@@ -27,7 +27,6 @@ public class TaskXMLParser extends DefaultHandler{
                 color = "";
             }
         }
-
     }
 
     @Override

@@ -53,12 +53,9 @@ public class CurrentTasks extends JFrame{
                 int row = currentTasksTable.getEditingRow();
                 int column = currentTasksTable.getEditingColumn();
 
-                if (currentTasksTable.isEditing())
+                if (currentTasksTable.isEditing()) {
                     currentTasksTable.getCellEditor().stopCellEditing();
-
-                String a = taskTableFields[column],
-                        b = currentTasksTable.getValueAt(row, column).toString();
-                int c = Integer.parseInt(currentTasksTable.getValueAt(row, 0).toString());
+                }
                 try {
                     rmiConnection.getUserInterface().updateTaskRow(
                             taskTableFields[column],

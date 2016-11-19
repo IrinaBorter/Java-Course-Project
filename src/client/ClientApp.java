@@ -35,7 +35,6 @@ public class ClientApp {
             e.printStackTrace();
             System.exit(0);
         }
-        taskStatusAndColorModel.getStatusArray();
         AuthorisationDialog authDlg = new AuthorisationDialog();
     }
 }
