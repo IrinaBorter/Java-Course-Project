@@ -15,6 +15,8 @@ public class ConnectionDB {
     private final static String USER_ADD = "INSERT INTO user(login, password, access) VALUES(?,?,?)";
     private final static String TASK_ADD = "INSERT INTO task(taskName, taskDescription, taskAssignedId, taskStart, taskEnd, taskStatus) VALUES(?,?,?,?,?,?)";
     private final static String TASK_DELETE = "DELETE FROM task WHERE id = ?";
+    private final static String COMPLETE_TASK_ADD = "INSERT INTO completedtasks  (id, time, taskAssignedId, taskEnd, primaryStatus, newStatus) VALUES (?,?,?,?,?,?)";
+    private final static String UPDATE_TASK_STATUS = "UPDATE task SET taskStatus = ? WHERE carId = ?";
 
 
     private Connection cn = null;
@@ -44,7 +46,7 @@ public class ConnectionDB {
         String url = properties.getProperty("db.url");
         String user = properties.getProperty("db.user");
         String password = properties.getProperty("db.password");
-//        System.err.println(url + " " + user + " " + password);
+
         return DriverManager.getConnection(url, user, password);
     }
 
@@ -157,6 +159,25 @@ public class ConnectionDB {
         } catch (SQLException e) {
             System.out.println("Error in SQL Query!");
         }
+    }
+
+    public void addCompletedTask(int id, String time, int taskAssignedId, String taskStart, String primaryStatus, String newStatus) {
+        PreparedStatement ps = null;
+        try {
+            ps = cn.prepareStatement(COMPLETE_TASK_ADD);
+            ps.setInt(1, id);
+            ps.setString(2, time);
+            ps.setInt(3, taskAssignedId);
+            ps.setString(4, taskStart);
+            ps.setString(5, primaryStatus);
+            ps.setString(6, newStatus);
+            System.out.println(ps.toString());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error on SQL Query!");
+        }
+
     }
 
     public void close() {

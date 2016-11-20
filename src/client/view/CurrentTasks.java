@@ -20,6 +20,7 @@ public class CurrentTasks extends JFrame{
     private JPanel contentPanel;
     private JButton backButton;
     private JButton addButton;
+    private JButton submitCompleteButton;
     private TaskManager parent;
     private String[] taskTableFields = {"id", "taskName", "taskDescription", "taskAssignedId", "taskStart", "taskEnd", "taskStatus"};
 
@@ -89,6 +90,20 @@ public class CurrentTasks extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 parent.setVisible(true);
                 dispose();
+            }
+        });
+
+        submitCompleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRowId = currentTasksTable.getSelectedRow();
+                int id = (int)currentTasksTable.getValueAt(selectedRowId, 0);
+                int taskAssignedId = (int)currentTasksTable.getValueAt(selectedRowId, 3);
+                String status = (String)currentTasksTable.getValueAt(selectedRowId, 6);
+                new SubmitCompletedTask(thisWindow(), id, taskAssignedId, status);
+
+                currentTasksTable.setModel(new CurrentTasksTableModel());
+                tableSort();
             }
         });
     }

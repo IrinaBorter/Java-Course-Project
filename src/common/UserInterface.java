@@ -16,4 +16,5 @@ public interface UserInterface extends Remote{
     public boolean updateTaskRow(String field, String value, int id) throws RemoteException;
     public void addNewTask(String taskName, String taskDescription, int taskAssignedId,
                           String taskStart, String taskEnd, String taskStatus) throws RemoteException;
+    public void completeTask(int id, String time, int taskAssignedId, String taskEnd, String primaryStatus, String newStatus) throws RemoteException;
 }

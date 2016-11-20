@@ -44,7 +44,8 @@ public class TaskManager extends JFrame {
         newTasksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setVisible(false);
+                new AddTaskWindow(new CurrentTasks(thisWindow()));
             }
         });
 

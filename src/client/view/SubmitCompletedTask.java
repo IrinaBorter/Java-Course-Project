@@ -8,22 +8,23 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.rmi.RemoteException;
 
-public class AddTaskWindow extends JDialog{
+public class SubmitCompletedTask extends JDialog {
     private JPanel contentPanel;
-    private JButton okButton;
     private JButton cancelButton;
-    private JTextField taskNameField;
-    private JTextField taskDescriptionField;
-    private JComboBox taskAssignedBox;
-    private JTextField taskStartField;
+    private JButton okButton;
+    private JTextField timeField;
     private JTextField taskEndField;
     private JComboBox taskStatusBox;
-    private JTextField taskAssignedField;
     private CurrentTasks parent;
+    private int id, taskAssignedId;
+    private String primaryStatus;
 
-    public AddTaskWindow(CurrentTasks parent) {
+    public SubmitCompletedTask(CurrentTasks parent, int id, int taskAssignedId, String status) {
         this.parent = parent;
         this.parent.setVisible(false);
+        this.id = id;
+        this.taskAssignedId = taskAssignedId;
+        this.primaryStatus = status;
         setModal(true);
         setResizable(true);
         setContentPane(contentPanel);
@@ -65,12 +66,9 @@ public class AddTaskWindow extends JDialog{
     private void onOK() {
 
         RmiConnector rmiConnection = new RmiConnector();
-        String taskName = taskNameField.getText();
-        String taskDescription = taskDescriptionField.getText();
-        int taskAssigned = Integer.parseInt(taskAssignedField.getText());
-        String taskStart = taskStartField.getText();
+        String time = timeField.getText();
         String taskEnd = taskEndField.getText();
-        String taskStatus = (String) taskStatusBox.getSelectedItem();
+        String newStatus = (String)taskStatusBox.getSelectedItem();
         try {
 
         }
@@ -78,7 +76,7 @@ public class AddTaskWindow extends JDialog{
             new ServerConnectionError("Проверьте вводимые данные");
         }
         try {
-            rmiConnection.getUserInterface().addNewTask(taskName, taskDescription, taskAssigned, taskStart, taskEnd, taskStatus);
+            rmiConnection.getUserInterface().completeTask(id, time, taskAssignedId, taskEnd, primaryStatus, newStatus);
         } catch (RemoteException e) {
             new ServerConnectionError("Не получилось подключиться к серверу");
         }

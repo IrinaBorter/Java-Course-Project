@@ -49,4 +49,10 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
         ConnectionDB connectionDB = new ConnectionDB();
         connectionDB.addNewTask(taskName, taskDescription, taskAssigned, taskStart, taskEnd, taskStatus);
     }
+
+    public void completeTask(int id, String time, int taskAssignedId, String taskEnd, String primaryStatus, String newStatus) throws RemoteException {
+        ConnectionDB connectionDB = new ConnectionDB();
+        connectionDB.updateTaskRow("taskStatus", newStatus, id);
+        connectionDB.addCompletedTask(id, time, taskAssignedId, taskEnd, primaryStatus, newStatus);
+    }
 }
