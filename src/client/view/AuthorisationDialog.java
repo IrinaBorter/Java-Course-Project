@@ -49,6 +49,14 @@ public class AuthorisationDialog extends JDialog {
                 onCancel();
             }
         });
+
+        checkinBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new RegistrationWindow(thisWindow());
+            }
+        });
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -61,7 +69,7 @@ public class AuthorisationDialog extends JDialog {
     private void onOK() throws RemoteException, SQLException {
 
         RmiConnector rmiConnection = new RmiConnector();
-        if ((rmiConnection.getUserInterface().authorisation(loginField.getText(), passwordField.getText()))!=0) {
+        if ((rmiConnection.getUserInterface().authorisation(loginField.getText(), passwordField.getText()))!= -1) {
             setVisible(false);
             dispose();
             TaskManager taskManager = new TaskManager(thisWindow());

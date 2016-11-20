@@ -7,6 +7,7 @@ import server.database.ConnectionDB;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class RemoteInterface extends UnicastRemoteObject implements UserInterface{
@@ -19,9 +20,9 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
         return  databaseConnector.checkAuthorisation(login, password);
     }
 
-    public void addNewUser(String login, String password, int rights) throws RemoteException {
+    public void addNewUser(String login, String password, int access, String firstname, String surname, int age, String post) throws RemoteException {
         ConnectionDB connectionDB = new ConnectionDB();
-        connectionDB.addNewUser(login, password, rights);
+        connectionDB.addNewUser(login, password, access, firstname, surname, age, post);
     }
 
     public ArrayList<User> getAllUsers() throws RemoteException {

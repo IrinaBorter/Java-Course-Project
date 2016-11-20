@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class ConnectionDB {
     private final static String USER_DELETE = "DELETE FROM user WHERE id = ?";
-    private final static String USER_ADD = "INSERT INTO user(login, password, access) VALUES(?,?,?)";
+    private final static String USER_ADD = "INSERT INTO user(login, password, access, firstname, surname, post, age) VALUES(?,?,?,?,?,?,?)";
     private final static String TASK_ADD = "INSERT INTO task(taskName, taskDescription, taskAssignedId, taskStart, taskEnd, taskStatus) VALUES(?,?,?,?,?,?)";
     private final static String TASK_DELETE = "DELETE FROM task WHERE id = ?";
     private final static String COMPLETE_TASK_ADD = "INSERT INTO completedtasks  (id, time, taskAssignedId, taskEnd, primaryStatus, newStatus) VALUES (?,?,?,?,?,?)";
@@ -60,16 +60,20 @@ public class ConnectionDB {
         } catch (SQLException e) {
             System.err.println("не удалось обработать запрос!");
         }
-        return 0;
+        return -1;
     }
 
-    public void addNewUser(String login, String password, int access) {
+    public void addNewUser(String login, String password, int access, String firstname, String surname, int age, String post) {
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(USER_ADD);
             ps.setString(1, login);
             ps.setString(2, password);
             ps.setInt(3, access);
+            ps.setString(4, firstname);
+            ps.setString(5, surname);
+            ps.setString(6, post);
+            ps.setInt(7, age);
             System.out.println(ps.toString());
             ps.executeUpdate();
 
@@ -175,7 +179,7 @@ public class ConnectionDB {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Error on SQL Query!");
+            System.out.println("Error in SQL Query!");
         }
 
     }

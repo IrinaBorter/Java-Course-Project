@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface UserInterface extends Remote{
     public int authorisation(String login, String password) throws RemoteException;
-    public void addNewUser(String login, String password, int access) throws RemoteException;
+    public void addNewUser(String login, String password, int access, String firstname, String surname, int age, String post) throws RemoteException;
     public ArrayList<User> getAllUsers() throws RemoteException;
     public boolean deleteFromDB(String tableName, String lineId) throws  RemoteException;
     public ArrayList<Task> getAllCurrentTasks() throws RemoteException;

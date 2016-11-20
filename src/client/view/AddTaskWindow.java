@@ -82,8 +82,8 @@ public class AddTaskWindow extends JDialog{
         } catch (RemoteException e) {
             new ServerConnectionError("Не получилось подключиться к серверу");
         }
-        parent.getTable().setModel(new CurrentTasksTableModel());
         parent.setVisible(true);
+        parent.getTable().setModel(new CurrentTasksTableModel());
         dispose();
     }
 
