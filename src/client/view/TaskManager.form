@@ -22,6 +22,7 @@
             </constraints>
             <properties>
               <font size="28"/>
+              <foreground color="-13092001"/>
               <text value="Система управления задачами"/>
             </properties>
           </component>
@@ -46,7 +47,9 @@
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
+                      <background color="-12158023"/>
                       <font size="20"/>
+                      <foreground color="-12158023"/>
                       <text value="Меню"/>
                     </properties>
                   </component>
@@ -75,7 +78,7 @@
                               <borderPainted value="true"/>
                               <contentAreaFilled value="true"/>
                               <font size="18" style="0"/>
-                              <foreground color="-1"/>
+                              <foreground color="-12158023"/>
                               <text value="Текущие задачи"/>
                               <verifyInputWhenFocusTarget value="true"/>
                             </properties>
@@ -98,8 +101,8 @@
                               <background color="-12158023"/>
                               <borderPainted value="true"/>
                               <font size="18" style="0"/>
-                              <foreground color="-1"/>
-                              <text value="Новые задачи"/>
+                              <foreground color="-12158023"/>
+                              <text value="Новая задача"/>
                             </properties>
                           </component>
                         </children>
@@ -120,7 +123,7 @@
                               <background color="-12158023"/>
                               <borderPainted value="true"/>
                               <font size="18" style="0"/>
-                              <foreground color="-1"/>
+                              <foreground color="-12158023"/>
                               <text value="Статистика выполненных задач"/>
                             </properties>
                           </component>
@@ -142,8 +145,8 @@
                               <background color="-12158023"/>
                               <borderPainted value="true"/>
                               <font size="18" style="0"/>
-                              <foreground color="-1"/>
-                              <text value="Мой профиль"/>
+                              <foreground color="-12158023"/>
+                              <text value="Профили"/>
                             </properties>
                           </component>
                         </children>
@@ -164,7 +167,7 @@
                               <background color="-12158023"/>
                               <borderPainted value="true"/>
                               <font size="18" style="0"/>
-                              <foreground color="-1"/>
+                              <foreground color="-12158023"/>
                               <text value="Выход"/>
                             </properties>
                           </component>

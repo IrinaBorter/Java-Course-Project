@@ -23,8 +23,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="1" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font size="20"/>
-              <foreground color="-4512738"/>
+              <font name="Lucida Sans" size="22" style="1"/>
+              <foreground color="-7398377"/>
               <text value="Server Connection Error"/>
             </properties>
           </component>
@@ -43,6 +43,8 @@
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-14456011"/>
+              <foreground color="-13092001"/>
               <text value="Ok"/>
             </properties>
           </component>

@@ -21,6 +21,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="2" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font size="20"/>
+              <foreground color="-13092001"/>
               <text value="Добавление новой задачи"/>
             </properties>
           </component>
@@ -44,6 +46,8 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-14456011"/>
+              <foreground color="-13092001"/>
               <text value="Ok"/>
             </properties>
           </component>
@@ -52,6 +56,8 @@
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-7398377"/>
+              <foreground color="-13092001"/>
               <text value="Отмена"/>
             </properties>
           </component>
@@ -78,6 +84,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Название задачи"/>
             </properties>
           </component>
@@ -94,6 +101,7 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Описание зедачи"/>
             </properties>
           </component>
@@ -102,6 +110,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Выполняющий"/>
             </properties>
           </component>
@@ -126,6 +135,7 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Начало"/>
             </properties>
           </component>
@@ -134,6 +144,7 @@
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Окончание"/>
             </properties>
           </component>
@@ -148,6 +159,7 @@
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <foreground color="-12158023"/>
               <text value="Статус задачи"/>
             </properties>
           </component>
