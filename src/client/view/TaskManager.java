@@ -59,7 +59,8 @@ public class TaskManager extends JFrame {
         myProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                setVisible(false);
+                new UserWindow(thisWindow());
             }
         });
 

@@ -40,7 +40,7 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
         return connectionDB.getAllCurrentTasks();
     }
 
-    public boolean updateTaskRow(String field, String value,int id) throws RemoteException {
+    public boolean updateRow(String field, String value,int id) throws RemoteException {
         ConnectionDB connectionDB = new ConnectionDB();
         return connectionDB.updateTaskRow(field, value, id);
     }

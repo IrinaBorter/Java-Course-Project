@@ -71,7 +71,7 @@ public class CurrentTasksTableModel extends AbstractTableModel {
         RmiConnector rmiConnection = new RmiConnector();
         UserInterface userInterface = rmiConnection.getUserInterface();
         try {
-            userInterface.updateTaskRow(columnNamesOrigin[columnIndex], aValue.toString(), task.getId());
+            userInterface.updateRow(columnNamesOrigin[columnIndex], aValue.toString(), task.getId());
             taskArrayList = rmiConnection.getUserInterface().getAllCurrentTasks();
 
         } catch (RemoteException e) {}

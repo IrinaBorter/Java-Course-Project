@@ -82,14 +82,14 @@ public class AddTaskWindow extends JDialog{
         } catch (RemoteException e) {
             new ServerConnectionError("Не получилось подключиться к серверу");
         }
+        dispose();
         parent.setVisible(true);
         parent.getTable().setModel(new CurrentTasksTableModel());
-        dispose();
     }
 
     private void onCancel() {
-        parent.setVisible(true);
         dispose();
+        this.parent.setVisible(true);
     }
 
     private void createUIComponents() {
