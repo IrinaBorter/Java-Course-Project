@@ -4,7 +4,7 @@ import client.view.AuthorisationDialog;
 
 import client.model.TaskStatusAndColorModel;
 import client.model.TaskXMLParser;
-import client.view.ServerConnectionError;
+import client.view.ErrorWindow;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -31,7 +31,7 @@ public class ClientApp {
         try {
             parser.parse(new File("F:\\_Univer\\3 course\\java\\resources\\tasks.xml"), taskXmlParser);
         } catch (IOException e) {
-            new ServerConnectionError("Отсутствует файл tasks.xml");
+            new ErrorWindow("Отсутствует файл tasks.xml");
             e.printStackTrace();
             System.exit(0);
         }

@@ -1,7 +1,6 @@
 package client.view;
 
 import client.RmiConnector;
-import client.model.CurrentTasksTableModel;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -39,29 +38,38 @@ public class RegistrationWindow extends JDialog {
                 RmiConnector rmiConnection = new RmiConnector();
                 String firstname = firstnameField.getText();
                 String surname = surnameField.getText();
-                int age = Integer.parseInt(ageField.getText());
                 String post = postField.getText();
                 String login = loginField.getText();
                 String password = passwordField.getText();
+                int age = 0;
                 try {
-
+                    if (firstname.equals("") ||
+                            surname.equals("") ||
+                            ageField.getText().equals("") ||
+                            post.equals("") ||
+                            login.equals("") ||
+                            password.equals("")) {
+                        throw new Exception("Проверьте введенные данные");
+                    } else {
+                        age = Integer.parseInt(ageField.getText());
+                    }
+                    try {
+                        rmiConnection.getUserInterface().addNewUser(login, password, 0, firstname, surname, age, post);
+                    } catch (RemoteException obj) {
+                        new ErrorWindow("Не получилось подключиться к серверу");
+                    }
+                    dispose();
+                    AuthorisationDialog authorisationDialog = new AuthorisationDialog();
                 }
-                catch (NumberFormatException obj) {
-                    new ServerConnectionError("Проверьте вводимые данные");
+                catch (Exception exc) {
+                    new ErrorWindow(exc.getMessage());
                 }
-                try {
-                    rmiConnection.getUserInterface().addNewUser(login, password, 0, firstname, surname, age, post);
-                } catch (RemoteException obj) {
-                    new ServerConnectionError("Не получилось подключиться к серверу");
-                }
-                dispose();
-                AuthorisationDialog authorisationDialog = new AuthorisationDialog();
             }
         });
 
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                onCancel();
             }
         });
 
@@ -77,5 +85,16 @@ public class RegistrationWindow extends JDialog {
 
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
+    }
+
+    private void onCancel() {
+        System.exit(0);
     }
 }

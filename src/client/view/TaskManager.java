@@ -18,6 +18,7 @@ public class TaskManager extends JFrame {
     private AuthorisationDialog parent;
 
 
+
     public TaskManager(AuthorisationDialog parent) {
         this.parent = parent;
         this.setResizable(true);
@@ -61,6 +62,14 @@ public class TaskManager extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 new UserWindow(thisWindow());
+            }
+        });
+
+        taskPerformanceStatisticsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new ViewStatistic(thisWindow());
             }
         });
 

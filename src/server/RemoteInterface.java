@@ -1,6 +1,7 @@
 package server;
 
 import common.UserInterface;
+import common.model.CompletedTask;
 import common.model.User;
 import common.model.Task;
 import server.database.ConnectionDB;
@@ -40,9 +41,14 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
         return connectionDB.getAllCurrentTasks();
     }
 
-    public boolean updateRow(String field, String value,int id) throws RemoteException {
+    public ArrayList<CompletedTask> getAllCompletedTasks() throws RemoteException {
         ConnectionDB connectionDB = new ConnectionDB();
-        return connectionDB.updateTaskRow(field, value, id);
+        return connectionDB.getAllCompletedTasks();
+    }
+
+    public boolean updateRow(String tableName, String field, String value,int id) throws RemoteException {
+        ConnectionDB connectionDB = new ConnectionDB();
+        return connectionDB.updateRow(tableName, field, value, id);
     }
 
     public void addNewTask(String taskName, String taskDescription, int taskAssigned,
@@ -53,7 +59,7 @@ public class RemoteInterface extends UnicastRemoteObject implements UserInterfac
 
     public void completeTask(int id, String time, int taskAssignedId, String taskEnd, String primaryStatus, String newStatus) throws RemoteException {
         ConnectionDB connectionDB = new ConnectionDB();
-        connectionDB.updateTaskRow("taskStatus", newStatus, id);
-        connectionDB.addCompletedTask(id, time, taskAssignedId, taskEnd, primaryStatus, newStatus);
+        connectionDB.updateRow("task","taskStatus", newStatus, id);
+        connectionDB.addCompletedTask(time, taskAssignedId, taskEnd, primaryStatus, newStatus);
     }
 }

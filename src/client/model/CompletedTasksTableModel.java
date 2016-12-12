@@ -1,9 +1,9 @@
 package client.model;
 
-
 import client.RmiConnector;
+import client.control.CompletedTaskWriter;
 import common.UserInterface;
-import common.model.Task;
+import common.model.CompletedTask;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -12,24 +12,36 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CurrentTasksTableModel extends AbstractTableModel {
-    String[] columnNames = {"ID", "Название", "Описание", "ID назначенного", "Начало задания",
-                            "Окончание задания", "Статус задания"};
-    String[] columnNamesOrigin = {"id", "taskName", "taskDescription", "taskAssignedId", "taskStart",
-                                  "taskEnd", "taskStatus"};
-
-    private ArrayList<Task> taskArrayList = new ArrayList<Task>();
+public class CompletedTasksTableModel extends AbstractTableModel {
+    String[] columnNames = {
+            "ID",
+            "Время",
+            "ID назначенного",
+            "Дата окончания",
+            "Начальный статус",
+            "Новый статус"
+    };
+    String[] columnNamesOrigin = {
+            "id",
+            "time",
+            "taskAssignedId",
+            "taskEnd",
+            "primaryStatus",
+            "newStatus"
+    };
+    private ArrayList<CompletedTask> taskArrayList = new ArrayList<CompletedTask>();
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
 
     public void addTableModelListener(TableModelListener listener) {
         listeners.add(listener);
     }
 
-    public CurrentTasksTableModel() {
+    public CompletedTasksTableModel() {
         RmiConnector rmiConnection = new RmiConnector();
-        ArrayList<Task> taskArrayList = null;
+        ArrayList<CompletedTask> taskArrayList = null;
         try {
-            taskArrayList = rmiConnection.getUserInterface().getAllCurrentTasks();
+            taskArrayList = rmiConnection.getUserInterface().getAllCompletedTasks();
+            CompletedTaskWriter.writeStatistic(taskArrayList);
         }
         catch (Exception E) {
             System.out.println(E.toString());
@@ -42,45 +54,41 @@ public class CurrentTasksTableModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Task task = taskArrayList.get(rowIndex);
+        CompletedTask task = taskArrayList.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return task.getId();
             case 1:
-                return task.getTaskName();
+                return task.getTime();
             case 2:
-                return task.getTaskDescription();
-            case 3:
                 return task.getTaskAssignedId();
-            case 4:
-                return task.getTaskStart();
-            case 5:
+            case 3:
                 return task.getTaskEnd();
-            case 6:
-                return task.getTaskStatus();
+            case 4:
+                return task.getPrimaryStatus();
+            case 5:
+                return task.getNewStatus();
         }
         return "";
     }
 
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Task task = taskArrayList.get(rowIndex);
+        CompletedTask task = taskArrayList.get(rowIndex);
         RmiConnector rmiConnection = new RmiConnector();
         UserInterface userInterface = rmiConnection.getUserInterface();
         try {
-            userInterface.updateRow("task", columnNamesOrigin[columnIndex], aValue.toString(), task.getId());
-            taskArrayList = rmiConnection.getUserInterface().getAllCurrentTasks();
+            userInterface.updateRow("completedtasks", columnNamesOrigin[columnIndex], aValue.toString(), task.getId());
+            taskArrayList = rmiConnection.getUserInterface().getAllCompletedTasks();
 
         } catch (RemoteException e) {}
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 0)
-            return false;
-        return true;
+        return !(columnIndex == 0);
     }
 
     public String getColumnName(int columnIndex) {
@@ -88,9 +96,9 @@ public class CurrentTasksTableModel extends AbstractTableModel {
     }
 
     public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == 1 || columnIndex == 2 || columnIndex == 4 || columnIndex == 5 || columnIndex == 6)
+        if (columnIndex == 1 || columnIndex == 3 || columnIndex == 4 || columnIndex == 5)
             return String.class;
-        if  (columnIndex == 0 || columnIndex == 3)
+        if  (columnIndex == 0 || columnIndex == 2)
             return Integer.class;
         else return Double.class;
     }

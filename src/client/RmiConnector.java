@@ -1,6 +1,6 @@
 package client;
 
-import client.view.ServerConnectionError;
+import client.view.ErrorWindow;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -17,9 +17,9 @@ public class RmiConnector {
             registry = LocateRegistry.getRegistry(8030);
             userInterface = (UserInterface)registry.lookup("courseRMI");
         } catch (RemoteException e) {
-            new ServerConnectionError("Сервер недоступен!");
+            new ErrorWindow("Сервер недоступен!");
         } catch (NotBoundException e) {
-            new ServerConnectionError("Сервер недоступен!");
+            new ErrorWindow("Сервер недоступен!");
         }
     }
     public UserInterface getUserInterface() {

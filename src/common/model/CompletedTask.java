@@ -7,19 +7,25 @@ public class CompletedTask implements Serializable {
     private String time;
     private int taskAssignedId;
     private String taskEnd;
+    private String primaryStatus;
+    private String newStatus;
 
     public CompletedTask() {
         this.id = 1;
         this.time = "";
         this.taskAssignedId = 1;
         this.taskEnd = "";
+        this.primaryStatus = "";
+        this.newStatus = "";
     }
 
-    public CompletedTask(int id, String time, int taskAssignedId, String taskEnd) {
+    public CompletedTask(int id, String time, int taskAssignedId, String taskEnd, String primaryStatus, String newStatus) {
         this.id = id;
         this.time = time;
         this.taskAssignedId = taskAssignedId;
         this.taskEnd = taskEnd;
+        this.primaryStatus = primaryStatus;
+        this.newStatus = newStatus;
     }
 
     @Override
@@ -29,6 +35,8 @@ public class CompletedTask implements Serializable {
                 ", Time='" + time + '\'' +
                 ", Assigned Id=" + taskAssignedId + '\n' +
                 ", End=" + taskEnd + '\n' +
+                ", Primary status: " + primaryStatus + '\n' +
+                ", New status: " + newStatus + '\n' +
                 '}';
     }
 
@@ -62,5 +70,21 @@ public class CompletedTask implements Serializable {
 
     public void setTaskEnd(String taskEnd) {
         this.taskEnd = taskEnd;
+    }
+
+    public String getPrimaryStatus() {
+        return primaryStatus;
+    }
+
+    public void setPrimaryStatus(String primaryStatus) {
+        this.primaryStatus = primaryStatus;
+    }
+
+    public String getNewStatus() {
+        return newStatus;
+    }
+
+    public void setnewStatus(String newStatus) {
+        this.newStatus = newStatus;
     }
 }

@@ -63,7 +63,7 @@ public class UserTableModel extends AbstractTableModel {
         RmiConnector rmiConnection = new RmiConnector();
         UserInterface userInterface = rmiConnection.getUserInterface();
         try {
-            userInterface.updateRow(columnNamesOrigin[columnIndex], aValue.toString(), user.getId());
+            userInterface.updateRow("user", columnNamesOrigin[columnIndex], aValue.toString(), user.getId());
             userArrayList = rmiConnection.getUserInterface().getAllUsers();
 
         } catch (RemoteException e) {}

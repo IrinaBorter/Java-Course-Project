@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import client.view.TaskManager;
 
 public class AuthorisationDialog extends JDialog {
     private JPanel contentPanel;
@@ -69,12 +68,19 @@ public class AuthorisationDialog extends JDialog {
     private void onOK() throws RemoteException, SQLException {
 
         RmiConnector rmiConnection = new RmiConnector();
-        if ((rmiConnection.getUserInterface().authorisation(loginField.getText(), passwordField.getText()))!= -1) {
-            setVisible(false);
-            dispose();
-            TaskManager taskManager = new TaskManager(thisWindow());
+        try {
+            if (loginField.getText().equals("") || passwordField.getText().equals("")) {
+                throw new NumberFormatException("Проверьте введенные данные");
+            }
+            if ((rmiConnection.getUserInterface().authorisation(loginField.getText(), passwordField.getText()))!= -1) {
+                setVisible(false);
+                dispose();
+                TaskManager taskManager = new TaskManager(thisWindow());
+            }
+            else messageLabel.setText("Ошибка");
+        } catch (NumberFormatException e) {
+            new ErrorWindow(e.getMessage());
         }
-        else messageLabel.setText("Ошибка");
     }
 
     AuthorisationDialog thisWindow() {

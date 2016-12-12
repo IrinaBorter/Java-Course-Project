@@ -27,7 +27,7 @@ public class CurrentTasks extends JFrame{
     public CurrentTasks(TaskManager parent) {
         this.parent = parent;
         this.setResizable(true);
-        this.setSize(500, 1000);
+        this.setSize(2000, 1000);
         this.setContentPane(contentPanel);
         this.setLocationRelativeTo(null);
         this.startListeners();
@@ -59,6 +59,7 @@ public class CurrentTasks extends JFrame{
                 }
                 try {
                     rmiConnection.getUserInterface().updateRow(
+                            "task",
                             taskTableFields[column],
                             currentTasksTable.getValueAt(row, column).toString(),
                             Integer.parseInt(currentTasksTable.getValueAt(row, 0).toString()));
@@ -110,6 +111,7 @@ public class CurrentTasks extends JFrame{
 
     private void createUIComponents() throws RemoteException {
         currentTasksTable = new JTable(new CurrentTasksTableModel());
+        tableSort();
     }
 
     public JTable getTable() {

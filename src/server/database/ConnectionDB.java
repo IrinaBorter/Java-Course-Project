@@ -1,5 +1,6 @@
 package server.database;
 
+import common.model.CompletedTask;
 import common.model.User;
 import common.model.Task;
 
@@ -15,7 +16,7 @@ public class ConnectionDB {
     private final static String USER_ADD = "INSERT INTO user(login, password, access, firstname, surname, post, age) VALUES(?,?,?,?,?,?,?)";
     private final static String TASK_ADD = "INSERT INTO task(taskName, taskDescription, taskAssignedId, taskStart, taskEnd, taskStatus) VALUES(?,?,?,?,?,?)";
     private final static String TASK_DELETE = "DELETE FROM task WHERE id = ?";
-    private final static String COMPLETE_TASK_ADD = "INSERT INTO completedtasks  (id, time, taskAssignedId, taskEnd, primaryStatus, newStatus) VALUES (?,?,?,?,?,?)";
+    private final static String COMPLETE_TASK_ADD = "INSERT INTO completedtasks  (time, taskAssignedId, taskEnd, primaryStatus, newStatus) VALUES (?,?,?,?,?)";
     private final static String UPDATE_TASK_STATUS = "UPDATE task SET taskStatus = ? WHERE carId = ?";
 
 
@@ -140,8 +141,33 @@ public class ConnectionDB {
         return taskArrayList;
     }
 
-    public boolean updateTaskRow(String field, String value, int id) {
-        String TASK_UPDATE = "UPDATE task SET "+field+" = ? WHERE id = ?";
+    public ArrayList<CompletedTask> getAllCompletedTasks() {
+        ArrayList<CompletedTask> taskArrayList = new ArrayList<CompletedTask>();
+        try {
+            rs = st.executeQuery("SELECT  * FROM completedtasks");
+            while (rs.next()) {
+                if(!rs.getBoolean(6)) {
+                    taskArrayList.add(
+                            new CompletedTask(
+                                    rs.getInt(1),
+                                    rs.getString(2),
+                                    rs.getInt(3),
+                                    rs.getString(4),
+                                    rs.getString(5),
+                                    rs.getString(6)
+                            )
+                    );
+                }
+            }
+            System.out.println(rs.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return taskArrayList;
+    }
+
+    public boolean updateRow(String tableName, String field, String value, int id) {
+        String TASK_UPDATE = "UPDATE " + tableName + " SET " + field + " = ? WHERE id = ?";
         try {
             PreparedStatement ps = cn.prepareStatement(TASK_UPDATE);
             ps.setString(1, value);
@@ -173,16 +199,15 @@ public class ConnectionDB {
         }
     }
 
-    public void addCompletedTask(int id, String time, int taskAssignedId, String taskStart, String primaryStatus, String newStatus) {
+    public void addCompletedTask(String time, int taskAssignedId, String taskEnd, String primaryStatus, String newStatus) {
         PreparedStatement ps = null;
         try {
             ps = cn.prepareStatement(COMPLETE_TASK_ADD);
-            ps.setInt(1, id);
-            ps.setString(2, time);
-            ps.setInt(3, taskAssignedId);
-            ps.setString(4, taskStart);
-            ps.setString(5, primaryStatus);
-            ps.setString(6, newStatus);
+            ps.setString(1, time);
+            ps.setInt(2, taskAssignedId);
+            ps.setString(3, taskEnd);
+            ps.setString(4, primaryStatus);
+            ps.setString(5, newStatus);
             System.out.println(ps.toString());
             ps.executeUpdate();
 

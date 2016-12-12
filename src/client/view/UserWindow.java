@@ -3,7 +3,6 @@ package client.view;
 import client.RmiConnector;
 import client.model.UserTableModel;
 
-import javax.management.remote.rmi.RMIConnector;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -19,7 +18,9 @@ public class UserWindow extends JDialog {
     private JTextField findField;
     private JButton searchButton;
     private JButton backButton;
+    private JButton editButton;
     private TaskManager parent;
+    private String[] userTableFields = {"id", "login", "password", "access", "firstname", "surname", "post", "age"};
 
     public UserWindow(TaskManager parent){
         this.parent = parent;
@@ -82,6 +83,29 @@ public class UserWindow extends JDialog {
                 dispose();
             }
         });
+
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RmiConnector rmiConnection = new RmiConnector();
+
+                int row = userTable.getEditingRow();
+                int column = userTable.getEditingColumn();
+
+                if (userTable.isEditing()) {
+                    userTable.getCellEditor().stopCellEditing();
+                }
+                try {
+                    rmiConnection.getUserInterface().updateRow(
+                            "user",
+                            userTableFields[column],
+                            userTable.getValueAt(row, column).toString(),
+                            Integer.parseInt(userTable.getValueAt(row, 0).toString()));
+                } catch(RemoteException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        });
     }
 
     private void newFilter() {
@@ -89,23 +113,30 @@ public class UserWindow extends JDialog {
                 = new TableRowSorter<UserTableModel>(new UserTableModel());
         userTable.setRowSorter(sorter);
         RowFilter<TableModel, Object> rf = null;
-        if (findField.getText().equals("")) {
-            rf = null;
-        }
-        else {
+        try {
+            if (findField.getText().equals("")) {
+                throw new Exception("Вы не ввели значение");
+            }
             try {
                 System.out.println(findField.getText());
                 rf = RowFilter.regexFilter(findField.getText(), 1,3);
             } catch (java.util.regex.PatternSyntaxException e) {
                 e.printStackTrace();
             }
+            sorter.setRowFilter(rf);
+            userTable.setRowSorter(sorter);
+        } catch(Exception e) {
+            new ErrorWindow(e.getMessage());
         }
-        sorter.setRowFilter(rf);
+    }
+
+    public void tableSort() {
+        RowSorter<UserTableModel> sorter = new TableRowSorter<UserTableModel>((UserTableModel) userTable.getModel());
         userTable.setRowSorter(sorter);
     }
 
-
     private void createUIComponents() {
         userTable = new JTable(new UserTableModel());
+        tableSort();
     }
 }

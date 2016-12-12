@@ -2,11 +2,13 @@ package client.view;
 
 import client.RmiConnector;
 import client.model.CurrentTasksTableModel;
+import client.model.TaskAssignedIdModel;
 import client.model.TaskStatusModel;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.rmi.RemoteException;
+import java.util.regex.Pattern;
 
 public class AddTaskWindow extends JDialog{
     private JPanel contentPanel;
@@ -14,11 +16,10 @@ public class AddTaskWindow extends JDialog{
     private JButton cancelButton;
     private JTextField taskNameField;
     private JTextField taskDescriptionField;
-    private JComboBox taskAssignedBox;
     private JTextField taskStartField;
     private JTextField taskEndField;
     private JComboBox taskStatusBox;
-    private JTextField taskAssignedField;
+    private JComboBox assignedBox;
     private CurrentTasks parent;
 
     public AddTaskWindow(CurrentTasks parent) {
@@ -67,24 +68,35 @@ public class AddTaskWindow extends JDialog{
         RmiConnector rmiConnection = new RmiConnector();
         String taskName = taskNameField.getText();
         String taskDescription = taskDescriptionField.getText();
-        int taskAssigned = Integer.parseInt(taskAssignedField.getText());
+        int taskAssigned = (int)assignedBox.getSelectedItem();
         String taskStart = taskStartField.getText();
         String taskEnd = taskEndField.getText();
         String taskStatus = (String) taskStatusBox.getSelectedItem();
+        String pattern = "\\d{2}.\\d{2}.\\d{4}";
         try {
-
+            if (taskName.equals("") ||
+                    taskDescription.equals("") ||
+                    taskAssigned == 0 ||
+                    taskStart.equals("") ||
+                    !taskStart.matches(pattern) ||
+                    taskEnd.equals("") ||
+                    !taskEnd.matches(pattern) ||
+                    taskStatus.equals("")) {
+                throw new Exception("Проверьте вводимые данные");
+            }
+            try {
+                rmiConnection.getUserInterface().addNewTask(taskName, taskDescription, taskAssigned, taskStart, taskEnd, taskStatus);
+            } catch (RemoteException e) {
+                new ErrorWindow("Не получилось подключиться к серверу");
+            }
+            parent.getTable().setModel(new CurrentTasksTableModel());
+            parent.tableSort();
+            parent.setVisible(true);
+            dispose();
         }
-        catch (NumberFormatException e) {
-            new ServerConnectionError("Проверьте вводимые данные");
+        catch (Exception e) {
+            new ErrorWindow(e.getMessage());
         }
-        try {
-            rmiConnection.getUserInterface().addNewTask(taskName, taskDescription, taskAssigned, taskStart, taskEnd, taskStatus);
-        } catch (RemoteException e) {
-            new ServerConnectionError("Не получилось подключиться к серверу");
-        }
-        dispose();
-        parent.setVisible(true);
-        parent.getTable().setModel(new CurrentTasksTableModel());
     }
 
     private void onCancel() {
@@ -94,5 +106,6 @@ public class AddTaskWindow extends JDialog{
 
     private void createUIComponents() {
         taskStatusBox = new JComboBox(new TaskStatusModel());
+        assignedBox = new JComboBox(new TaskAssignedIdModel());
     }
 }

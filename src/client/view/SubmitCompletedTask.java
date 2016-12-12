@@ -69,20 +69,25 @@ public class SubmitCompletedTask extends JDialog {
         String time = timeField.getText();
         String taskEnd = taskEndField.getText();
         String newStatus = (String)taskStatusBox.getSelectedItem();
+        String pattern = "\\d{2}.\\d{2}.\\d{4}";
+        String timePattern = "\\d{1,}";
         try {
-
+            if (time.equals("") || taskEnd.equals("") || newStatus.equals("")
+                    || !time.matches(timePattern) || !taskEnd.matches(pattern)) {
+                throw new Exception("Проверьте введенные данные");
+            }
+            try {
+                rmiConnection.getUserInterface().completeTask(id, time, taskAssignedId, taskEnd, primaryStatus, newStatus);
+            } catch (RemoteException e) {
+                new ErrorWindow("Не получилось подключиться к серверу");
+            }
+            parent.getTable().setModel(new CurrentTasksTableModel());
+            parent.setVisible(true);
+            dispose();
         }
-        catch (NumberFormatException e) {
-            new ServerConnectionError("Проверьте вводимые данные");
+        catch (Exception e) {
+            new ErrorWindow(e.getMessage());
         }
-        try {
-            rmiConnection.getUserInterface().completeTask(id, time, taskAssignedId, taskEnd, primaryStatus, newStatus);
-        } catch (RemoteException e) {
-            new ServerConnectionError("Не получилось подключиться к серверу");
-        }
-        parent.getTable().setModel(new CurrentTasksTableModel());
-        parent.setVisible(true);
-        dispose();
     }
 
     private void onCancel() {
